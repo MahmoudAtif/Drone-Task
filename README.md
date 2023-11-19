@@ -4,9 +4,9 @@ This is a API project developed using Golang that allows users to list & registe
 ## Requirements
 - Go version go1.21.0 
 
-##Installation
+## Installation
 
-### Using local environemnt
+### Using local environment
 1.Clone the repository:
     `git clone https://github.com/MahmoudAtif/Drone-Task.git`
 
