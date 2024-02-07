@@ -111,5 +111,5 @@ definitions:
         example: "50"
       image:
         type: string
-        example: "123XXX"
+        example: "example.png"
         description: "allowed extentions: (.jpg, .jpeg, .png)"

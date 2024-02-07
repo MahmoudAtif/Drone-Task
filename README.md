@@ -134,7 +134,7 @@ To run swagger documentation use the following command
 - Response Example:
     ```
     {
-        "created_drones": [
+        "created_medications": [
             {   
                 "id":1,
                 "name": "TestName",
