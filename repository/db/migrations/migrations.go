@@ -10,3 +10,8 @@ func MigrateDrone(db *gorm.DB) error {
 	err := db.AutoMigrate(&entity.Drone{})
 	return err
 }
+
+func MigrateMedication(db *gorm.DB) error {
+	err := db.AutoMigrate(&entity.Medication{})
+	return err
+}

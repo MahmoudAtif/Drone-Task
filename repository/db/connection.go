@@ -7,8 +7,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectToDataBase() (*gorm.DB, error) {
+func ConnectToDataBase(args ...string) (*gorm.DB, error) {
 	dbConfig := os.Getenv("DB_CONNECTION_STRING")
+	if len(args) > 0 {
+		dbConfig = args[0]
+	}
 	db, err := gorm.Open(postgres.Open(dbConfig), &gorm.Config{})
 	if err != nil {
 		return db, err

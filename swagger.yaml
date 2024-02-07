@@ -1,0 +1,115 @@
+swagger: "2.0"
+info:
+  title: "Drone-task Documentation"
+  version: 1.0.0
+host: localhost:9999
+basePath: /
+schemes:
+  - https
+paths:
+  /api/drone/:
+    post:
+      tags:
+        - "drone"
+      summary: "register new drone"
+      description: "register new drone"
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "drone fields that needs to be registered"
+          required: true
+          schema:
+            $ref: "#/definitions/Drone"
+      responses:
+        "201":
+          description: Drone Created
+        "400":
+          description: "invalid data"
+  /api/medication/:
+    post:
+      tags:
+        - "medication"
+      summary: "register new meeication"
+      description: "register new medication"
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "medication fields that needs to be registered"
+          required: true
+          schema:
+            $ref: "#/definitions/Medication"
+      responses:
+        "201":
+          description: Drone Created
+        "400":
+          description: "invalid data"
+definitions:
+  Drone:
+    title: Drone
+    type: "object"
+    required:
+      - "serial_number"
+      - "model"
+      - "state"
+      - "weight"
+      - "batery_capacity"
+    properties:
+      serial_number:
+        type: string
+        example: "123456XXX"
+        format: "100 characters max"
+      model:
+        type: string
+        enum:
+          - Lightweight
+          - Middleweight
+          - Cruiserweight
+          - Heavyweight
+      state:
+        type: string
+        enum:
+          - "IDLE"
+          - "LOADING"
+          - "LOADED"
+          - "DELIVERING"
+          - "DELIVERED"
+          - "RETURNING"
+      weight:
+        format: double
+        type: number
+        description: "weight must be less than or equal 500g"
+      batery_capacity:
+        format: double
+        type: number
+        description: "precentage"
+  Medication:
+    title: Medication
+    type: "object"
+    required:
+      - "name"
+      - "code"
+    properties:
+      name:
+        type: string
+        example: "MedicationExample"
+        description: "allowed only letters, numbers, ‘-‘, ‘_’"
+      code:
+        type: string
+        example: "123XXX"
+        description: "allowed only upper case letters, underscore and numbers"
+      weight:
+        format: double
+        type: number
+        example: "50"
+      image:
+        type: string
+        example: "123XXX"
+        description: "allowed extentions: (.jpg, .jpeg, .png)"
