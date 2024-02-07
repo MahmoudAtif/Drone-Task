@@ -14,3 +14,8 @@ func NewMockedMedicationRepository() repository.IMedicationRepository {
 func (m MockedMedicationRepository) Create(medications []entity.Medication) ([]entity.Medication, error) {
 	return medications, nil
 }
+
+func (m MockedMedicationRepository) GetByCode(code string) (entity.Medication, error) {
+	medication := entity.Medication{}
+	return medication, nil
+}

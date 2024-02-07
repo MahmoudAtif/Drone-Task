@@ -26,7 +26,10 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-
+	err = migrations.MigrateDroneLoad(db)
+	if err != nil {
+		log.Println(err)
+	}
 	droneRepo := repository.NewDroneRepository(db)
 	droneUseCase := usecase.NewDroneUseCase(droneRepo)
 	droneApi := apis.NewDroneAPIS(droneUseCase)
@@ -34,6 +37,14 @@ func main() {
 	medicationRepo := repository.NewMedicationRepository(db)
 	medicationUseCase := usecase.NewMedicationUseCase(medicationRepo)
 	mediccationApi := apis.NewMedicationAPIS(medicationUseCase)
+
+	droneLoadRepo := repository.NewDroneLoadRepository(db)
+	droneLoadUseCase := usecase.NewDroneLoadUseCase(
+		droneLoadRepo,
+		droneRepo,
+		medicationRepo,
+	)
+	droneLoadApi := apis.NewDroneLoadAPIS(droneLoadUseCase)
 
 	r := mux.NewRouter().PathPrefix("/api").Subrouter()
 
@@ -46,6 +57,9 @@ func main() {
 
 	medicationSubRouter := r.PathPrefix("/medication").Subrouter()
 	medicationSubRouter.HandleFunc("/", mediccationApi.Create).Methods("POST")
+
+	droneLoadSubRouter := r.PathPrefix("/drone/load").Subrouter()
+	droneLoadSubRouter.HandleFunc("/", droneLoadApi.Create).Methods("POST")
 
 	fmt.Println("development server at http://127.0.0.1:9999")
 	http.ListenAndServe(":9999", r)

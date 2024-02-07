@@ -51,6 +51,28 @@ paths:
           description: Drone Created
         "400":
           description: "invalid data"
+  /api/drone/load/:
+    post:
+      tags:
+        - "drone load"
+      summary: "load drone with meeication"
+      description: "load drone by medication"
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "drone load fields that needs to be registered"
+          required: true
+          schema:
+            $ref: "#/definitions/DroneLoad"
+      responses:
+        "201":
+          description: Drone Created
+        "400":
+          description: "invalid data"
 definitions:
   Drone:
     title: Drone
@@ -113,3 +135,16 @@ definitions:
         type: string
         example: "example.png"
         description: "allowed extentions: (.jpg, .jpeg, .png)"
+  DroneLoad:
+    title: DroneLoad
+    type: "object"
+    required:
+      - "drone_serial_number"
+      - "medication_code"
+    properties:
+      drone_serial_number:
+        type: string
+        example: "123XXX"
+      medication_code:
+        type: string
+        example: "123XXX"

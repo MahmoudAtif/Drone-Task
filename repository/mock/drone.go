@@ -34,3 +34,8 @@ func (m MockedDroneRepository) Delete(id int) error {
 func (m MockedDroneRepository) Update(drone entity.Drone) (entity.Drone, error) {
 	return entity.Drone{}, nil
 }
+
+func (m MockedDroneRepository) GetBySerialNumber(serialNumber string) (entity.Drone, error) {
+	drone := entity.Drone{}
+	return drone, nil
+}

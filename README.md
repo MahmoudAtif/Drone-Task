@@ -69,7 +69,7 @@ To run swagger documentation use the following command
 - Request Example:
     ```
     curl -X POST -H "Content-Type: application/json" -d '[
-       {
+        {
             "serial_number": "SN123",
             "model": "Lightweight",
             "weight": 100,
@@ -117,7 +117,7 @@ To run swagger documentation use the following command
 - Request Example:
     ```
     curl -X POST -H "Content-Type: application/json" -d '[
-       {
+        {
             "name": "TestName",
             "code": "XXX123",
             "weight": 100,
@@ -154,5 +154,25 @@ To run swagger documentation use the following command
                 "updated_at": ""
             }
         ]
+    }
+    ```
+
+### Register DroneLoad
+- Request Example:
+    ```
+    curl -X POST -H "Content-Type: application/json" -d '{
+        "drone_serial_number": "123XXX",
+        "medication_code": "123XXX"
+    }
+    ' http://localhost:9999/api/drone/load/
+    ```
+- Response Example:
+    ```
+    {
+        "id": 1,
+        "drone_serial_number": "123XXX",
+        "medication_code": "123XXX",
+        "created_at": "",
+        "updated_at": ""
     }
     ```

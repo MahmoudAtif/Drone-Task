@@ -56,6 +56,10 @@ func InitializeTestDatabase(schemaName string) (*gorm.DB, error) {
 	if err != nil {
 		log.Println(err)
 	}
+	err = migrations.MigrateDroneLoad(dbClient)
+	if err != nil {
+		log.Println(err)
+	}
 
 	return dbClient, nil
 }
