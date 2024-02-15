@@ -5,7 +5,7 @@ type Drone struct {
 	SerialNumber    string  `gorm:"type:varchar(100);unique;not null" json:"serial_number"`
 	Model           string  `json:"model"`
 	Weight          float64 `json:"weight"`
-	BatteryCapacity float64 `json:"batery_capacity"`
+	BatteryCapacity float64 `json:"battery_capacity"`
 	State           string  `json:"state"`
 }
 

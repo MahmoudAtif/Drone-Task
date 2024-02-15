@@ -61,7 +61,8 @@ func main() {
 	droneLoadSubRouter := r.PathPrefix("/drone/load").Subrouter()
 	droneLoadSubRouter.HandleFunc("/", droneLoadApi.Create).Methods("POST")
 
+	go droneUseCase.UpdateDroneBateryTask()
+
 	fmt.Println("development server at http://127.0.0.1:9999")
 	http.ListenAndServe(":9999", r)
-
 }

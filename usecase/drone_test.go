@@ -25,7 +25,7 @@ func TestDroneUseCaseGet(t *testing.T) {
 	}{
 		{
 			name: "Test Get usecase",
-			want: `[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"1","model":"Lightweight","weight":55,"batery_capacity":20,"state":"IDLE"}]`,
+			want: `[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"1","model":"Lightweight","weight":55,"battery_capacity":20,"state":"IDLE"}]`,
 			args: args{ctx: context.Background()},
 			mocks: mocks{
 				mockedDroneRepository: mock.NewMockedDroneRepository(),
@@ -63,9 +63,9 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Can create drones without validation",
 			args: args{
 				ctx:     context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"batery_capacity": 100,"state": "IDLE"}]`),
+				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"battery_capacity": 100,"state": "IDLE"}]`),
 			},
-			want: `{"created_drones":[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"11","model":"Lightweight","weight":55.5,"batery_capacity":100,"state":"IDLE"}]}`,
+			want: `{"created_drones":[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"11","model":"Lightweight","weight":55.5,"battery_capacity":100,"state":"IDLE"}]}`,
 			mocks: mocks{
 				mockedDroneRepository: mock.NewMockedDroneRepository(),
 			},
@@ -74,7 +74,7 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Cannot Create drones with wrong serial number",
 			args: args{
 				ctx:     context.Background(),
-				request: []byte(`[{"serial_number": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss","model": "Lightweight","weight_limit": 55.5,"batery_capacity": 55,"state": "IDLE"}]`),
+				request: []byte(`[{"serial_number": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss","model": "Lightweight","weight_limit": 55.5,"battery_capacity": 55,"state": "IDLE"}]`),
 			},
 			want: `{"created_drones":[],"errors":["drone sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss: serial number must be 100 characters max"]}`,
 			mocks: mocks{
@@ -85,7 +85,7 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Cannot Create drones with wrong model",
 			args: args{
 				ctx: context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "dfdf","weight": 55.5,"batery_capacity": 55,"state": "IDLE"
+				request: []byte(`[{"serial_number": "11","model": "dfdf","weight": 55.5,"battery_capacity": 55,"state": "IDLE"
 				}]`),
 			},
 			want: `{"created_drones":[],"errors":["drone 11: invalid drone models"]}`,
@@ -97,7 +97,7 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Cannot Create drones with wrong state",
 			args: args{
 				ctx: context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"batery_capacity": 55,"state": "ddd"
+				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"battery_capacity": 55,"state": "ddd"
 				}]`),
 			},
 			want: `{"created_drones":[],"errors":["drone 11: invalid drone state"]}`,
@@ -109,7 +109,7 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Cannot Create drones with wrong batery capacity",
 			args: args{
 				ctx:     context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"batery_capacity": 200,"state": "IDLE"}]`),
+				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 55.5,"battery_capacity": 200,"state": "IDLE"}]`),
 			},
 			want: `{"created_drones":[],"errors":["drone 11: invalid batery_cabacity precentage"]}`,
 			mocks: mocks{
@@ -120,7 +120,7 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test Cannot Create drones with wrong weight",
 			args: args{
 				ctx:     context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 555.5,"batery_capacity": 100,"state": "IDLE"}]`),
+				request: []byte(`[{"serial_number": "11","model": "Lightweight","weight": 555.5,"battery_capacity": 100,"state": "IDLE"}]`),
 			},
 			want: `{"created_drones":[],"errors":["drone 11: weight must be less than or equal 500gr"]}`,
 			mocks: mocks{
@@ -131,9 +131,9 @@ func TestDroneUseCaseCreate(t *testing.T) {
 			name: "Test create multiple drones one with validation and one without validation",
 			args: args{
 				ctx:     context.Background(),
-				request: []byte(`[{"serial_number": "11","model": "Light","weight": 555.5,"batery_capacity": 101,"state": "44"}, {"serial_number": "12","model": "Lightweight","weight": 55.5,"batery_capacity": 100,"state": "IDLE"}]`),
+				request: []byte(`[{"serial_number": "11","model": "Light","weight": 555.5,"battery_capacity": 101,"state": "44"}, {"serial_number": "12","model": "Lightweight","weight": 55.5,"battery_capacity": 100,"state": "IDLE"}]`),
 			},
-			want: `{"created_drones":[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"12","model":"Lightweight","weight":55.5,"batery_capacity":100,"state":"IDLE"}],"errors":["drone 11: invalid drone models","drone 11: weight must be less than or equal 500gr","drone 11: invalid batery_cabacity precentage","drone 11: invalid drone state"]}`,
+			want: `{"created_drones":[{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","serial_number":"12","model":"Lightweight","weight":55.5,"battery_capacity":100,"state":"IDLE"}],"errors":["drone 11: invalid drone models","drone 11: weight must be less than or equal 500gr","drone 11: invalid batery_cabacity precentage","drone 11: invalid drone state"]}`,
 			mocks: mocks{
 				mockedDroneRepository: mock.NewMockedDroneRepository(),
 			},

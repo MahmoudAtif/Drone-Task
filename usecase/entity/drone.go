@@ -8,7 +8,7 @@ type Drone struct {
 	SerialNumber    string  `json:"serial_number"`
 	Model           string  `json:"model"`
 	Weight          float64 `json:"weight"`
-	BatteryCapacity int     `json:"batery_capacity"`
+	BatteryCapacity int     `json:"battery_capacity"`
 	State           string  `json:"state"`
 }
 

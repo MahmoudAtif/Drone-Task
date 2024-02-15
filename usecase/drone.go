@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"golang.org/x/exp/slices"
 )
@@ -18,6 +19,7 @@ type IDroneUseCase interface {
 	GetById(ctx context.Context, id int) ([]byte, error)
 	Delete(ctx context.Context, id int) error
 	Update(ctx context.Context, request []byte) ([]byte, error)
+	UpdateDroneBateryTask()
 }
 
 type DroneUseCase struct {
@@ -144,4 +146,25 @@ func (dr DroneUseCase) ValidateDrones(drones []entity.Drone) ([]entity.Drone, []
 		}
 	}
 	return validatedDrones, errors
+}
+
+func (dr DroneUseCase) UpdateDroneBateryTask() {
+	for {
+		drones, err := dr.droneRepository.Filter(entity.DroneFilters{States: []string{"LOADED"}})
+		if err != nil {
+			log.Printf("[Error]: %v", err.Error())
+		}
+		for _, drone := range drones {
+			if drone.BatteryCapacity > 0 {
+				_, err = dr.droneRepository.UpdateByID(
+					int(drone.ID),
+					map[string]interface{}{"battery_capacity": drone.BatteryCapacity - 1},
+				)
+				if err != nil {
+					log.Printf("[Error]: %v", err.Error())
+				}
+			}
+		}
+		time.Sleep(1 * time.Minute)
+	}
 }

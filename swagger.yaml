@@ -48,7 +48,7 @@ paths:
             $ref: "#/definitions/Medication"
       responses:
         "201":
-          description: Drone Created
+          description: Medication Created
         "400":
           description: "invalid data"
   /api/drone/load/:
@@ -56,7 +56,7 @@ paths:
       tags:
         - "drone load"
       summary: "load drone with meeication"
-      description: "load drone by medication"
+      description: "load drone with medication"
       produces:
         - application/json
       consumes:
@@ -70,7 +70,7 @@ paths:
             $ref: "#/definitions/DroneLoad"
       responses:
         "201":
-          description: Drone Created
+          description: DroneLoad Created
         "400":
           description: "invalid data"
 definitions:
@@ -82,7 +82,7 @@ definitions:
       - "model"
       - "state"
       - "weight"
-      - "batery_capacity"
+      - "battery_capacity"
     properties:
       serial_number:
         type: string
@@ -108,7 +108,7 @@ definitions:
         format: double
         type: number
         description: "weight must be less than or equal 500g"
-      batery_capacity:
+      battery_capacity:
         format: double
         type: number
         description: "precentage"

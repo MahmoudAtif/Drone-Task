@@ -13,6 +13,8 @@ type IDroneRepository interface {
 	Delete(id int) error
 	Update(drone entity.Drone) (entity.Drone, error)
 	GetBySerialNumber(serialNumber string) (entity.Drone, error)
+	UpdateByID(id int, fields map[string]interface{}) (entity.Drone, error)
+	Filter(filters entity.DroneFilters) ([]entity.Drone, error)
 }
 
 type DroneRepository struct {
@@ -54,4 +56,28 @@ func (dr DroneRepository) GetBySerialNumber(serialNumber string) (entity.Drone, 
 	drone := entity.Drone{}
 	err := dr.DB.Where("serial_number = ?", serialNumber).Last(&drone).Error
 	return drone, err
+}
+
+func (dr DroneRepository) UpdateByID(id int, fields map[string]interface{}) (entity.Drone, error) {
+	err := dr.DB.Model(&entity.Drone{}).Where("id = ?", id).Updates(fields).Error
+	if err != nil {
+		return entity.Drone{}, err
+	}
+	return dr.GetById(id)
+}
+
+func (dr DroneRepository) Filter(filters entity.DroneFilters) ([]entity.Drone, error) {
+	drones := []entity.Drone{}
+	filterConditions := dr.DB
+	if len(filters.States) > 0 {
+		filterConditions = filterConditions.Where("state IN ?", filters.States)
+	}
+	if len(filters.SerialNumbers) > 0 {
+		filterConditions = filterConditions.Where("serial_number IN ?", filters.SerialNumbers)
+	}
+	err := filterConditions.Find(&drones).Error
+	if err != nil {
+		return nil, err
+	}
+	return drones, nil
 }
